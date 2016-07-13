@@ -9,7 +9,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class BonzoBlaster extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
-	
+
+	//This is the start
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
