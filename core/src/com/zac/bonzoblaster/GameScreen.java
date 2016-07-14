@@ -15,14 +15,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class GameScreen implements Screen {
 
     final BonzoBlaster game;
+    private final AnimatedSprite spaceshipShotSprite;
 
-//    public static final int SCREEN_HEIGHT = 1000;
-    SpriteBatch batch;
-    private Sprite spaceshipSprite;
+    //    public static final int SCREEN_HEIGHT = 1000;
+    //SpriteBatch batch;
+    private AnimatedSprite spaceshipSprite;
     private Texture background;
     private OrthographicCamera camera;
-    private AnimatedSprite spaceshipAnimated;
-   // private ShotManager shotManager;
+    private Spaceship playerSpaceship;
+
+    private ShotManager shotManager;
     private Music gameMusic;
     //private Enemy enemy;
 
@@ -36,21 +38,26 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1000,600);
 
-        batch = new SpriteBatch();
+        //batch = new SpriteBatch();
+        //batch = game.batch;
 
         background = new Texture(Gdx.files.internal("spacebackground.png"));
         Texture spaceshipTexture = new Texture(Gdx.files.internal("spritesheet.png"));
 
-        spaceshipSprite = new Sprite(spaceshipTexture);
+        Texture spaceshipShotTexture = new Texture(Gdx.files.internal("pewpew.png"));
 
-        spaceshipAnimated = new AnimatedSprite(spaceshipSprite,2,2);
-        spaceshipAnimated.setPosition(Gdx.graphics.getWidth()/2,0);
 
-        Texture shotTexture = new Texture(Gdx.files.internal("pewpew.png"));
-        Texture enemyShotTexture = new Texture(Gdx.files.internal("enemyshotsheet.png"));
+        spaceshipSprite = new AnimatedSprite(spaceshipTexture,2,2);
+        spaceshipShotSprite = new AnimatedSprite(spaceshipShotTexture,2,2);
+
+        playerSpaceship = new Spaceship(spaceshipSprite,spaceshipShotSprite);
+        playerSpaceship.spaceshipSprite.setPosition(Gdx.graphics.getWidth()/2,0);
+
+
+//        Texture enemyShotTexture = new Texture(Gdx.files.internal("enemyshotsheet.png"));
 //        shotManager = new ShotManager(shotTexture, enemyShotTexture);
-
-        Texture enemyTexture = new Texture(Gdx.files.internal("enemysheet.png"));
+//
+//        Texture enemyTexture = new Texture(Gdx.files.internal("enemysheet.png"));
 //        enemy = new Enemy(enemyTexture, shotManager);
 
 
@@ -73,7 +80,19 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
 
-        spaceshipAnimated.draw(game.batch);
+        game.batch.draw(background,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        playerSpaceship.spaceshipSprite.draw(game.batch);
+
+        int accelY = (int) Gdx.input.getAccelerometerY();
+
+        playerSpaceship.spaceshipSprite.move(200,0,accelY);
+        playerSpaceship.shotManager.update();
+        playerSpaceship.shotManager.draw(game.batch);
+
+        if(Gdx.input.isTouched()){
+            System.out.println("I'm being touched");
+            playerSpaceship.fireShot(playerSpaceship.spaceshipSprite.getX());
+        }
 
         game.batch.end();
     }
@@ -100,6 +119,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+        game.batch.dispose();
+        background.dispose();
 
     }
 }

@@ -8,33 +8,38 @@ import com.badlogic.gdx.math.Vector2;
  * Created by Zac on 7/13/2016.
  */
 public class Spaceship {
-    private Vector2 velocity;
-    protected Sprite sprite;
-    private float SHIP_SPEED = 300f;
+    private static final float SHOT_Y_CONSTANT = 190;
+    protected final ShotManager shotManager;
 
-    public Spaceship(Sprite spaceshipSprite, int i, int i1) {
+    protected AnimatedSprite spaceshipSprite;
+    protected AnimatedSprite spaceshipShotSprite;
+    private float SHIP_SPEED = 300;
+    private float timeSinceLastShot;
 
-        this.sprite = spaceshipSprite;
+    public Spaceship(AnimatedSprite spaceshipSprite, AnimatedSprite spaceshipShotSprite) {
+
+        this.spaceshipSprite = spaceshipSprite;
+        this.shotManager = new ShotManager(spaceshipShotSprite);
+        this.spaceshipShotSprite = spaceshipShotSprite;
 
     }
 
-    public void move(int accelY) {
 
-        velocity = new Vector2(SHIP_SPEED * accelY, 0);
-        int xMovement = (int) (velocity.x * Gdx.graphics.getDeltaTime());
-        int yMovement = (int) (velocity.y * Gdx.graphics.getDeltaTime());
-        sprite.setPosition(sprite.getX() + xMovement, sprite.getY() + yMovement);
 
-        if(sprite.getX() < 0){
-            sprite.setX(0);
-            //velocity.x = 0;
-        }
 
-        if(sprite.getX() + sprite.getWidth() > Gdx.graphics.getWidth()){
-            sprite.setX(Gdx.graphics.getWidth() - sprite.getWidth());
-            //velocity.x = 0;
-        }
+    public void fireShot(float x) {
+        System.out.println("I'm charging my laser beams");
+          if(shotManager.canFireShot()){
+              System.out.println("I can fire a shot)");
+              AnimatedSprite newShot = new AnimatedSprite(spaceshipShotSprite);
+              Shot shot = new Shot(newShot);
 
+              shot.sprite.setPosition(x, SHOT_Y_CONSTANT);
+              shot.sprite.setVelocity(new Vector2(0,shot.SHOT_SPEED));
+
+              shotManager.add(newShot);
+              timeSinceLastShot = 0f;
+          }
     }
 
 
