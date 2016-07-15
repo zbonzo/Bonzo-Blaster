@@ -1,0 +1,18 @@
+package com.zac.bonzoblaster;
+
+import com.badlogic.gdx.Gdx;
+
+/**
+ * Created by Zac on 7/14/2016.
+ */
+public enum PlayerType {
+    PLAYER_CHARACTER(1,130), NON_PLAYER_CHARACTER(-1, Gdx.graphics.getHeight()-130);
+
+    protected final int horizontalOffset;
+    protected int horizontalModifier;
+
+    PlayerType(int modifier, int offset){
+        this.horizontalModifier = modifier;
+        this.horizontalOffset = offset;
+    }
+}

@@ -14,12 +14,13 @@ public class Shot {
     protected static final int SHOT_SPEED = 150;
     protected final AnimatedSprite sprite;
     private Vector2 velocity;
-    private Sound laser = Gdx.audio.newSound(Gdx.files.internal("pew.wav"));
+
 
     public Shot(AnimatedSprite shot){
         this.sprite = shot;
+        System.out.println("x " + sprite.getX() + "y " + sprite.getY());
 
-        laser.play();
+
     }
 
 

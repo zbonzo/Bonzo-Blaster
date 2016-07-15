@@ -16,9 +16,10 @@ public class GameScreen implements Screen {
 
     final BonzoBlaster game;
     private final AnimatedSprite spaceshipShotSprite;
+    private final AnimatedSprite enemySprite;
+    private final AnimatedSprite enemyShotSprite;
+    private final Spaceship enemy;
 
-    //    public static final int SCREEN_HEIGHT = 1000;
-    //SpriteBatch batch;
     private AnimatedSprite spaceshipSprite;
     private Texture background;
     private OrthographicCamera camera;
@@ -26,8 +27,6 @@ public class GameScreen implements Screen {
 
     private ShotManager shotManager;
     private Music gameMusic;
-    //private Enemy enemy;
-
 
 //    private CollisionManager collisionManager;
 
@@ -42,24 +41,25 @@ public class GameScreen implements Screen {
         //batch = game.batch;
 
         background = new Texture(Gdx.files.internal("spacebackground.png"));
+
         Texture spaceshipTexture = new Texture(Gdx.files.internal("spritesheet.png"));
-
         Texture spaceshipShotTexture = new Texture(Gdx.files.internal("pewpew.png"));
-
 
         spaceshipSprite = new AnimatedSprite(spaceshipTexture,2,2);
         spaceshipShotSprite = new AnimatedSprite(spaceshipShotTexture,2,2);
 
-        playerSpaceship = new Spaceship(spaceshipSprite,spaceshipShotSprite);
+        playerSpaceship = new Spaceship(spaceshipSprite,spaceshipShotSprite,PlayerType.PLAYER_CHARACTER);
         playerSpaceship.spaceshipSprite.setPosition(Gdx.graphics.getWidth()/2,0);
 
 
-//        Texture enemyShotTexture = new Texture(Gdx.files.internal("enemyshotsheet.png"));
-//        shotManager = new ShotManager(shotTexture, enemyShotTexture);
-//
-//        Texture enemyTexture = new Texture(Gdx.files.internal("enemysheet.png"));
-//        enemy = new Enemy(enemyTexture, shotManager);
+        Texture enemyShotTexture = new Texture(Gdx.files.internal("enemyshotsheet.png"));
+        Texture enemyTexture = new Texture(Gdx.files.internal("enemysheet.png"));
 
+        enemySprite = new AnimatedSprite(enemyTexture,2,2);
+        enemyShotSprite = new AnimatedSprite(enemyShotTexture,2,2);
+
+        enemy = new Spaceship(enemySprite, enemyShotSprite,PlayerType.NON_PLAYER_CHARACTER);
+        enemy.spaceshipSprite.setPosition(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()-enemy.spaceshipSprite.getHeight());
 
 //        collisionManager = new CollisionManager(spaceshipAnimated,enemy,shotManager);
 
@@ -82,6 +82,7 @@ public class GameScreen implements Screen {
 
         game.batch.draw(background,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         playerSpaceship.spaceshipSprite.draw(game.batch);
+        enemy.spaceshipSprite.draw(game.batch);
 
         int accelY = (int) Gdx.input.getAccelerometerY();
 
@@ -89,9 +90,10 @@ public class GameScreen implements Screen {
         playerSpaceship.shotManager.update();
         playerSpaceship.shotManager.draw(game.batch);
 
+        enemy.enemyAI.takeAction();
+
         if(Gdx.input.isTouched()){
-            System.out.println("I'm being touched");
-            playerSpaceship.fireShot(playerSpaceship.spaceshipSprite.getX());
+           playerSpaceship.fireShot(playerSpaceship.spaceshipSprite.getX());
         }
 
         game.batch.end();

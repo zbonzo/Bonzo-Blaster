@@ -25,6 +25,7 @@ public class AnimatedSprite extends Sprite {
     //private boolean isDead = false;
 
     public AnimatedSprite(AnimatedSprite sprite) {
+
         this(sprite.getTexture(), sprite.FRAMES_ROW, sprite.FRAMES_COL);
     }
 
@@ -50,7 +51,7 @@ public class AnimatedSprite extends Sprite {
         animation = new Animation(0.1f, frames);
         stateTime = 0f;
 
-
+        System.out.println("I made a new animated sprite");
     }
 
     public void draw(Batch batch) {
