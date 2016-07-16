@@ -1,8 +1,5 @@
 package com.zac.bonzoblaster;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -13,7 +10,7 @@ public class Shot {
 
     protected static final int SHOT_SPEED = 150;
     protected final AnimatedSprite sprite;
-    private Vector2 velocity;
+
 
 
     public Shot(AnimatedSprite shot){

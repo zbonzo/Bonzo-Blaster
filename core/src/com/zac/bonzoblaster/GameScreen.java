@@ -16,9 +16,9 @@ public class GameScreen implements Screen {
 
     final BonzoBlaster game;
     private final AnimatedSprite spaceshipShotSprite;
-    private final AnimatedSprite enemySprite;
-    private final AnimatedSprite enemyShotSprite;
-    private final Spaceship enemy;
+    //private final AnimatedSprite enemySprite;
+    //private final AnimatedSprite enemyShotSprite;
+    //private final Spaceship enemy;
 
     private AnimatedSprite spaceshipSprite;
     private Texture background;
@@ -29,6 +29,7 @@ public class GameScreen implements Screen {
     private Music gameMusic;
 
 //    private CollisionManager collisionManager;
+    private EnemyManager enemyManager;
 
 //    private boolean isGameOver = false;
 
@@ -55,11 +56,12 @@ public class GameScreen implements Screen {
         Texture enemyShotTexture = new Texture(Gdx.files.internal("enemyshotsheet.png"));
         Texture enemyTexture = new Texture(Gdx.files.internal("enemysheet.png"));
 
-        enemySprite = new AnimatedSprite(enemyTexture,2,2);
-        enemyShotSprite = new AnimatedSprite(enemyShotTexture,2,2);
+        //enemySprite = new AnimatedSprite(enemyTexture,2,2);
+        //enemyShotSprite = new AnimatedSprite(enemyShotTexture,2,2);
 
-        enemy = new Spaceship(enemySprite, enemyShotSprite,PlayerType.NON_PLAYER_CHARACTER);
-        enemy.spaceshipSprite.setPosition(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()-enemy.spaceshipSprite.getHeight());
+        enemyManager = new EnemyManager(new AnimatedSprite(enemyTexture,2,2),new AnimatedSprite(enemyShotTexture,2,2));
+
+
 
 //        collisionManager = new CollisionManager(spaceshipAnimated,enemy,shotManager);
 
@@ -82,7 +84,7 @@ public class GameScreen implements Screen {
 
         game.batch.draw(background,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         playerSpaceship.spaceshipSprite.draw(game.batch);
-        enemy.spaceshipSprite.draw(game.batch);
+        //enemy.spaceshipSprite.draw(game.batch);
 
         int accelY = (int) Gdx.input.getAccelerometerY();
 
@@ -90,7 +92,10 @@ public class GameScreen implements Screen {
         playerSpaceship.shotManager.update();
         playerSpaceship.shotManager.draw(game.batch);
 
-        enemy.enemyAI.takeAction();
+        //enemy.enemyAI.takeAction();
+        enemyManager.update();
+        enemyManager.draw(game.batch);
+
 
         if(Gdx.input.isTouched()){
            playerSpaceship.fireShot(playerSpaceship.spaceshipSprite.getX());

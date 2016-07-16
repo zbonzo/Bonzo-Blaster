@@ -15,7 +15,7 @@ import java.util.List;
 public class ShotManager {
     private static final float MINIMUM_TIME_BETWEEN_SHOTS = .5f;
     private final Texture shotTexture;
-    private float timeSinceLastShot = 0f;
+    protected float timeSinceLastShot = 0f;
     private List<Shot> shots = new ArrayList<>();
 
     public ShotManager(AnimatedSprite spaceshipShotSprite) {
@@ -23,8 +23,7 @@ public class ShotManager {
     }
 
     public boolean canFireShot() {
-        System.out.println(" " + timeSinceLastShot + " " + MINIMUM_TIME_BETWEEN_SHOTS);
-
+        System.out.println(timeSinceLastShot + ">" + MINIMUM_TIME_BETWEEN_SHOTS);
         return timeSinceLastShot > MINIMUM_TIME_BETWEEN_SHOTS;
     }
 

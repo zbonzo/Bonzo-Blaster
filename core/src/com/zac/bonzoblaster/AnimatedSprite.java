@@ -15,6 +15,7 @@ public class AnimatedSprite extends Sprite {
     private final int FRAMES_ROW;
     private final int FRAMES_COL;
     private final Texture texture;
+    private int yModifier;
 
     private Animation animation;
     private TextureRegion[] frames;
@@ -54,6 +55,11 @@ public class AnimatedSprite extends Sprite {
         System.out.println("I made a new animated sprite");
     }
 
+    public AnimatedSprite(AnimatedSprite spaceshipShotSprite, int shotModifier) {
+        this(spaceshipShotSprite);
+        this.yModifier = shotModifier;
+    }
+
     public void draw(Batch batch) {
         stateTime += Gdx.graphics.getDeltaTime();
         currentFrame = animation.getKeyFrame(stateTime, true);
@@ -85,10 +91,14 @@ public class AnimatedSprite extends Sprite {
         this.velocity = velocity;
     }
 
+    public Vector2 getVelocity(){
+        return this.velocity;
+    }
+
     public void move(int moveX, int moveY, int speed) {
 
 
-        velocity = new Vector2(moveX * speed, moveY * speed);
+        velocity = new Vector2(moveX * speed, moveY * speed * yModifier);
         int xMovement = (int) (velocity.x * Gdx.graphics.getDeltaTime());
         int yMovement = (int) (velocity.y * Gdx.graphics.getDeltaTime());
         setPosition(getX() + xMovement, getY() + yMovement);
