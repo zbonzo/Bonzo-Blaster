@@ -28,7 +28,7 @@ public class ArtificialIntelligence {
 
         if(shouldChangeDirection()){
             if(canChangeDirection()) {
-                System.out.println("AI #" + AIID + " is at " + spaceship.spaceshipSprite.getX());
+
                 changeDirection();
             }
         }

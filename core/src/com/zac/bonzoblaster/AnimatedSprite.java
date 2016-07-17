@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -23,6 +24,7 @@ public class AnimatedSprite extends Sprite {
 
     private float stateTime;
     private Vector2 velocity;
+    private boolean dead = false;
     //private boolean isDead = false;
 
     public AnimatedSprite(AnimatedSprite sprite) {
@@ -52,7 +54,6 @@ public class AnimatedSprite extends Sprite {
         animation = new Animation(0.1f, frames);
         stateTime = 0f;
 
-        System.out.println("I made a new animated sprite");
     }
 
     public AnimatedSprite(AnimatedSprite spaceshipShotSprite, int shotModifier) {
@@ -82,8 +83,13 @@ public class AnimatedSprite extends Sprite {
     }
 
 
+
     public float getY() {
         return super.getY();
+    }
+
+    public Rectangle getBoundingBox() {
+        return new Rectangle(getX(),getY(),getWidth(),getHeight());
     }
 
     public void setVelocity(Vector2 velocity) {
@@ -114,5 +120,9 @@ public class AnimatedSprite extends Sprite {
         }
 
 
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
     }
 }

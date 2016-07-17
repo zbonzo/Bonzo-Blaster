@@ -2,6 +2,7 @@ package com.zac.bonzoblaster;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,8 +18,8 @@ public class EnemyManager {
     public EnemyManager(AnimatedSprite enemySprite, AnimatedSprite enemyShotSprite) {
 
         for(int i =0;i<3;i++) {
-            Spaceship enemy = new Spaceship(enemySprite, enemyShotSprite, PlayerType.NON_PLAYER_CHARACTER);
-            enemy.spaceshipSprite.setPosition(Gdx.graphics.getWidth() / (enemies.size() + 1), Gdx.graphics.getHeight() - enemy.spaceshipSprite.getHeight());
+            Spaceship enemy = new Spaceship(new AnimatedSprite(enemySprite), new AnimatedSprite(enemyShotSprite), PlayerType.NON_PLAYER_CHARACTER);
+            enemy.spaceshipSprite.setPosition((Gdx.graphics.getWidth() / (enemies.size() + 1))+(enemy.spaceshipSprite.getWidth()/2), Gdx.graphics.getHeight() - enemy.spaceshipSprite.getHeight());
             add(enemy);
         }
     }
@@ -38,13 +39,7 @@ public class EnemyManager {
             Spaceship enemy = i.next();
             enemy.enemyAI.takeAction();
             enemy.shotManager.update();
-//            enemy.spaceshipSprite.move(0,150,2);
-//            if(shot.sprite.getY() > Gdx.graphics.getHeight()){
-//                System.out.println("x " + shot.sprite.getX() + "y " + shot.sprite.getY());
-//                i.remove();
-//            }else if(shot.sprite.getY() < 0){
-//                i.remove();
-//            }
+
 
         }
 
@@ -55,5 +50,23 @@ public class EnemyManager {
             enemy.spaceshipSprite.draw(batch);
             enemy.shotManager.draw(batch);
         }
+    }
+
+    public ArrayList<Rectangle> getBoundingBoxes(){
+        ArrayList<Rectangle> enemyBoundingBoxes = new ArrayList<>();
+
+        Iterator<Spaceship> i = enemies.iterator();
+        while(i.hasNext()){
+            Spaceship enemy = i.next();
+            enemyBoundingBoxes.add(enemy.spaceshipSprite.getBoundingBox());
+
+
+        }
+        return enemyBoundingBoxes;
+
+    }
+
+    public List<Spaceship> getEnemies(){
+        return enemies;
     }
 }

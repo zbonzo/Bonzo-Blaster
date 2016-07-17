@@ -4,6 +4,7 @@ package com.zac.bonzoblaster;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,7 +24,7 @@ public class ShotManager {
     }
 
     public boolean canFireShot() {
-        System.out.println(timeSinceLastShot + ">" + MINIMUM_TIME_BETWEEN_SHOTS);
+
         return timeSinceLastShot > MINIMUM_TIME_BETWEEN_SHOTS;
     }
 
@@ -31,7 +32,7 @@ public class ShotManager {
     public void add(Shot shot) {
 //        Shot newShot = new Shot(shot);
         shots.add(shot);
-        System.out.println("I have been added to the shot Manager");
+
         timeSinceLastShot = 0f;
     }
 
@@ -41,7 +42,6 @@ public class ShotManager {
             Shot shot = i.next();
             shot.sprite.move(0,150,2);
             if(shot.sprite.getY() > Gdx.graphics.getHeight()){
-                System.out.println("x " + shot.sprite.getX() + "y " + shot.sprite.getY());
                 i.remove();
             }else if(shot.sprite.getY() < 0){
                 i.remove();
@@ -55,6 +55,12 @@ public class ShotManager {
         for (Shot shot:shots){
             shot.sprite.draw(batch);
         }
+    }
+
+    public List<Shot> getShots(){
+
+        return shots;
+
     }
 
 }

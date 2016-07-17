@@ -1,5 +1,7 @@
 package com.zac.bonzoblaster;
 
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -15,9 +17,16 @@ public class Shot {
 
     public Shot(AnimatedSprite shot){
         this.sprite = shot;
-        System.out.println("x " + sprite.getX() + "y " + sprite.getY());
 
 
+
+    }
+
+    public boolean touches(Rectangle boundingBox){
+        if(Intersector.intersectRectangles(sprite.getBoundingBox(),boundingBox,new Rectangle())){
+            return true;
+        }
+        return false;
     }
 
 

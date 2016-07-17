@@ -28,7 +28,7 @@ public class GameScreen implements Screen {
     private ShotManager shotManager;
     private Music gameMusic;
 
-//    private CollisionManager collisionManager;
+    private CollisionManager collisionManager;
     private EnemyManager enemyManager;
 
 //    private boolean isGameOver = false;
@@ -63,7 +63,7 @@ public class GameScreen implements Screen {
 
 
 
-//        collisionManager = new CollisionManager(spaceshipAnimated,enemy,shotManager);
+        collisionManager = new CollisionManager(playerSpaceship,enemyManager);
 
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("bgmusic.wav"));
         gameMusic.setVolume(.25f);
@@ -95,7 +95,7 @@ public class GameScreen implements Screen {
         //enemy.enemyAI.takeAction();
         enemyManager.update();
         enemyManager.draw(game.batch);
-
+        collisionManager.handleCollisions();
 
         if(Gdx.input.isTouched()){
            playerSpaceship.fireShot(playerSpaceship.spaceshipSprite.getX());

@@ -17,8 +17,10 @@ public class Spaceship {
     protected AnimatedSprite spaceshipShotSprite;
     private float SHIP_SPEED = 300;
     private Sound laser = Gdx.audio.newSound(Gdx.files.internal("pew.wav"));
+    private Sound explosion = Gdx.audio.newSound(Gdx.files.internal("explosion.wav"));
     protected int spaceShipID = 0;
     private static int spaceShipCounter;
+    private PlayerType playerType;
 
     protected ArtificialIntelligence enemyAI;
 
@@ -30,6 +32,8 @@ public class Spaceship {
         this.horizontalShotModifier = playerCharacter.horizontalModifier;
         this.SHOT_X_CONSTANT = playerCharacter.verticalOffset;
         this.SHOT_Y_CONSTANT = playerCharacter.horizontalOffset;
+        this.playerType = playerCharacter;
+
 
         this.spaceShipID = spaceShipCounter++;
         if(playerCharacter == PlayerType.NON_PLAYER_CHARACTER){
@@ -49,7 +53,7 @@ public class Spaceship {
 
               shot.sprite.setPosition(x + SHOT_X_CONSTANT, SHOT_Y_CONSTANT);
               shot.sprite.setVelocity(new Vector2(0,shot.SHOT_SPEED* horizontalShotModifier));
-              System.out.println(shot.sprite.getVelocity());
+
 
               shotManager.add(shot);
 
@@ -58,6 +62,20 @@ public class Spaceship {
           }
 
     }
+
+    public void hit(Spaceship spaceship) {
+        spaceship.spaceshipSprite.setDead(true);
+        explosion.play();
+
+        if(playerType == PlayerType.NON_PLAYER_CHARACTER){
+            //Do NPC Death
+        }else if(playerType == PlayerType.PLAYER_CHARACTER){
+            //Do PC Death
+        }
+
+    }
+
+
 
 
 }
